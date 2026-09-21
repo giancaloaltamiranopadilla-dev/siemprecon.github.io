@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🌻 Para ti, mi flor Milicita</title>
+ <link rel="icon" type="image/png" href="tails.png">
+<!-- Opa mira aquien tenemos revisando el codigo, a mi hermosa mili oh si oh si, tanto te gusto eh? en fin te amo eres libre de revisar lo que 
+ quieras mi hermosa beba la madre de mis niñas  -->
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+    background: #0a0a1a;
+    color: #fff;
+    user-select: none;
+    cursor: default;
+  }
+
+  .escena {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    z-index: 10;
+    overflow-y: auto;
+  }
+  .escena.activa { opacity: 1; pointer-events: auto; }
+
+  
+  #cielo {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg, #0a0a1a 0%, #1a1030 50%, #2a1845 100%);
+    transition: background 4s ease;
+  }
+
+  .estrella {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    animation: titilar 3s ease-in-out infinite;
+  }
+  @keyframes titilar {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+
+  #luna {
+    position: absolute;
+    top: 8%;
+    right: 12%;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fffbe0, #ffe082 60%, #ffb300);
+    box-shadow: 0 0 50px rgba(255, 220, 100, 0.7), 0 0 100px rgba(255, 200, 0, 0.4);
+    transition: all 4s ease;
+    z-index: 1;
+  }
+  #luna.sol {
+    width: 110px; height: 110px;
+    top: 6%; right: 8%;
+    background: radial-gradient(circle at 40% 40%, #fffde7, #ffe082 50%, #ff8f00);
+    box-shadow: 0 0 80px rgba(255, 220, 100, 0.9), 0 0 180px rgba(255, 180, 0, 0.6);
+  }
+
+
+  #tierra {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35vh;
+    background: linear-gradient(180deg, transparent 0%, rgba(60, 50, 10, 0.3) 30%, #2a2a10 100%);
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 3s ease 1s;
+  }
+  #tierra.visible { opacity: 1; }
+
+ 
+  .particula {
+    position: fixed;
+    pointer-events: none;
+    z-index: 3;
+    will-change: transform, opacity;
+  }
+
+  #escena1 .sobre-icono {
+    font-size: 100px;
+    animation: latido 1.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(255, 200, 0, 0.9));
+    margin-bottom: 20px;
+  }
+  @keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  #escena1 h1 {
+    font-size: 2rem;
+    color: #ffe082;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(255, 200, 0, 0.6);
+    margin-bottom: 15px;
+    line-height: 1.3;
+  }
+  #escena1 p {
+    color: #d4b96a;
+    font-style: italic;
+    font-size: 1rem;
+    animation: parpadeo 2.5s ease-in-out infinite;
+    text-align: center;
+  }
+  @keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  #escena2 { justify-content: flex-end; padding-bottom: 60px; }
+  #escena2 h2 {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.4rem;
+    color: #ffe082;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(255, 200, 0, 0.7);
+    width: 90%;
+    line-height: 1.4;
+  }
+  #jardin {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50vh;
+    z-index: 4;
+    pointer-events: auto;
+  }
+  .tallo {
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #6b8e23, #3a5a0a);
+    border-radius: 2px;
+    transform-origin: bottom center;
+    animation: crecer 2s ease-out forwards;
+    box-shadow: 0 0 8px rgba(107, 142, 35, 0.5);
+  }
+  @keyframes crecer {
+    from { height: 0; }
+  }
+  .girasol {
+    position: absolute;
+    font-size: 40px;
+    transform: translateX(-50%);
+    animation: aparecerFlor 1s ease-out 1.5s forwards;
+    opacity: 0;
+    filter: drop-shadow(0 0 15px rgba(255, 200, 0, 0.9));
+  }
+  @keyframes aparecerFlor {
+    from { opacity: 0; transform: translateX(-50%) scale(0.3) rotate(-45deg); }
+    to { opacity: 1; transform: translateX(-50%) scale(1) rotate(0); }
+  }
+
+
+  #escena3 .carta {
+    max-width: 650px;
+    width: 100%;
+    background: rgba(255, 250, 220, 0.08);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1.5px solid rgba(255, 200, 0, 0.35);
+    border-radius: 20px;
+    padding: 35px 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 40px rgba(255, 200, 0, 0.05);
+    line-height: 2;
+    font-size: 1rem;
+    color: #f5e6a8;
+    text-align: left;
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  #escena3 .carta::-webkit-scrollbar { width: 4px; }
+  #escena3 .carta::-webkit-scrollbar-thumb { background: rgba(255, 200, 0, 0.4); border-radius: 2px; }
+
+  #textoMaquina {
+    min-height: 300px;
+  }
+  #textoMaquina p { margin-bottom: 16px; }
+  #textoMaquina .destacado {
+    color: #ffe082;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 200, 0, 0.5);
+  }
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: #ffe082;
+    vertical-align: text-bottom;
+    animation: parpadeoCursor 0.8s step-end infinite;
+    margin-left: 2px;
+  }
+  @keyframes parpadeoCursor {
+    50% { opacity: 0; }
+  }
+
+  
+  #escena4 .contador-titulo {
+    font-size: 1.2rem;
+    color: #d4b96a;
+    font-style: italic;
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 200, 0, 0.4);
+  }
+  #escena4 .grid-contador {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  .bloque-contador {
+    background: rgba(255, 200, 0, 0.1);
+    border: 1.5px solid rgba(255, 200, 0, 0.4);
+    border-radius: 14px;
+    padding: 16px 8px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255, 200, 0, 0.05);
+  }
+  .bloque-contador .num {
+    font-size: 1.8rem;
+    color: #ffe082;
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255, 200, 0, 0.7);
+    display: block;
+    font-family: 'Courier New', monospace;
+  }
+  .bloque-contador .label {
+    font-size: 0.7rem;
+    color: #b8985a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+    display: block;
+  }
+  #escena4 .frase {
+    font-size: 1rem;
+    color: #f5e6a8;
+    text-align: center;
+    font-style: italic;
+    max-width: 500px;
+    line-height: 1.7;
+    padding: 0 15px;
+  }
+
+  .btn {
+    margin-top: 25px;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, #ffd54f, #ffb300);
+    color: #2a1845;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 180, 0, 0.5), inset 0 -3px 0 rgba(0,0,0,0.15);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    letter-spacing: 0.5px;
+  }
+  .btn:active { transform: scale(0.95); box-shadow: 0 4px 15px rgba(255, 180, 0, 0.6); }
+
+  #controles {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #controles.visible { opacity: 1; }
+  .ctrl-btn {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 200, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255, 200, 0, 0.5);
+    color: #ffe082;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .ctrl-btn:active { transform: scale(0.9); background: rgba(255, 200, 0, 0.3); }
+
+
+  #escena5 h2 {
+    font-size: 1.8rem;
+    color: #ffe082;
+    text-align: center;
+    text-shadow: 0 0 25px rgba(255, 200, 0, 0.8);
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+  #escena5 p {
+    color: #f5e6a8;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 500px;
+    padding: 0 20px;
+  }
+  .corazon-final {
+    font-size: 3rem;
+    margin-top: 25px;
+    animation: latido 1.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.9));
+  }
+
+  #canvasFuegos {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  #progreso {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  #progreso.visible { opacity: 1; }
+  .punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 200, 0, 0.25);
+    transition: all 0.5s ease;
+  }
+  .punto.activo {
+    background: #ffe082;
+    box-shadow: 0 0 12px rgba(255, 200, 0, 0.9);
+    transform: scale(1.3);
+  }
+
+
+  @media (max-width: 500px) {
+    #escena1 h1 { font-size: 1.5rem; }
+    #escena1 .sobre-icono { font-size: 80px; }
+    #escena2 h2 { font-size: 1.15rem; top: 8%; }
+    #escena3 .carta { padding: 25px 18px; font-size: 0.95rem; line-height: 1.85; }
+    #escena5 h2 { font-size: 1.4rem; }
+    .bloque-contador .num { font-size: 1.4rem; }
+    .girasol { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+
+<div id="cielo"></div>
+<div id="luna"></div>
+<div id="tierra"></div>
+
+
+<canvas id="canvasFuegos"></canvas>
+
+
+<div id="progreso">
+  <div class="punto activo"></div>
+  <div class="punto"></div>
+  <div class="punto"></div>
+  <div class="punto"></div>
+  <div class="punto"></div>
+</div>
+
+
+<div id="controles">
+  <button class="ctrl-btn" id="btnMusica" title="Música">🔇</button>
+  <button class="ctrl-btn" id="btnSaltar" title="Saltar">⏭</button>
+</div>
+
+
+<div class="escena activa" id="escena1">
+  <div class="sobre-icono">💌</div>
+  <h1>Esto es para ti,<br>mi preciosa y unica Milicita</h1>
+  <p>Vamos no seas timida solo toca para comenzar...</p>
+</div>
+
+
+<div class="escena" id="escena2">
+  <h2>🌻 Toca el jardín para hacer crecer las flores mi preciosa 🌻</h2>
+  <div id="jardin"></div>
+</div>
+
+
+<div class="escena" id="escena3">
+  <div class="carta">
+    <div id="textoMaquina"></div>
+  </div>
+</div>
+
+
+<div class="escena" id="escena4">
+  <div class="contador-titulo">Desde el día en que te conocí...</div>
+  <div class="grid-contador">
+    <div class="bloque-contador"><span class="num" id="dias">0</span><span class="label">Días</span></div>
+    <div class="bloque-contador"><span class="num" id="horas">0</span><span class="label">Horas</span></div>
+    <div class="bloque-contador"><span class="num" id="minutos">0</span><span class="label">Minutos</span></div>
+    <div class="bloque-contador"><span class="num" id="segundos">0</span><span class="label">Segundos</span></div>
+  </div>
+  <p class="frase">...y cada uno de ellos ha valido la pena. Mi corazón late a tu ritmo, y no quiero que pare nunca. 💛</p>
+  <button class="btn" onclick="siguienteEscena()">Continuar 🌻</button>
+</div>
+
+
+<div class="escena" id="escena5">
+  <h2>Feliz Día de las<br>Flores Amarillas Milicita 🌻</h2>
+  <p>Gracias por ser mi esposa, la alegría de todos mis dias y el amor de mi vida.<br><br>Te amo hoy, mañana y el resto de mi vida</p>
+  <div class="corazon-final">💛</div>
+</div>
+
+<script>
+
+let escenaActual = 0;
+const escenas = ['escena1', 'escena2', 'escena3', 'escena4', 'escena5'];
+const puntos = document.querySelectorAll('.punto');
+
+function irA(index) {
+  escenas.forEach((id, i) => {
+    document.getElementById(id).classList.toggle('activa', i === index);
+  });
+  puntos.forEach((p, i) => p.classList.toggle('activo', i === index));
+  escenaActual = index;
+
+  
+  actualizarFondo(index);
+
+
+  if (index === 2) iniciarCarta();
+  if (index === 3) iniciarContador();
+  if (index === 4) lanzarFuegosFinales();
+}
+
+function siguienteEscena() {
+  if (escenaActual < escenas.length - 1) irA(escenaActual + 1);
+}
+
+
+function actualizarFondo(index) {
+  const cielo = document.getElementById('cielo');
+  const luna = document.getElementById('luna');
+  const tierra = document.getElementById('tierra');
+
+  const fondos = [
+    'linear-gradient(180deg, #0a0a1a 0%, #1a1030 50%, #2a1845 100%)', 
+    'linear-gradient(180deg, #1a1030 0%, #3a2055 50%, #5a3060 100%)',
+    'linear-gradient(180deg, #4a2050 0%, #a04060 50%, #e08050 100%)',
+    'linear-gradient(180deg, #ff9a56 0%, #ffc966 50%, #ffe082 100%)',
+    'linear-gradient(180deg, #87ceeb 0%, #ffe082 50%, #ffd54f 100%)'  
+  ];
+  cielo.style.background = fondos[index];
+
+  if (index >= 3) {
+    luna.classList.add('sol');
+    tierra.classList.add('visible');
+  } else if (index === 2) {
+    tierra.classList.add('visible');
+  }
+}
+
+
+function crearEstrellas() {
+  const cielo = document.getElementById('cielo');
+  for (let i = 0; i < 120; i++) {
+    const e = document.createElement('div');
+    e.classList.add('estrella');
+    const size = Math.random() * 2.5 + 0.5;
+    e.style.width = size + 'px';
+    e.style.height = size + 'px';
+    e.style.left = Math.random() * 100 + '%';
+    e.style.top = Math.random() * 70 + '%';
+    e.style.animationDelay = Math.random() * 3 + 's';
+    e.style.animationDuration = (2 + Math.random() * 4) + 's';
+    cielo.appendChild(e);
+  }
+}
+crearEstrellas();
+
+
+const emojisParticulas = ['🌻', '💛', '✨', '🌼', '⭐', '💫'];
+function lanzarParticula(x, y, emoji, rapidez = 1) {
+  const p = document.createElement('div');
+  p.classList.add('particula');
+  p.textContent = emoji || emojisParticulas[Math.floor(Math.random() * emojisParticulas.length)];
+  p.style.left = x + 'px';
+  p.style.top = y + 'px';
+  p.style.fontSize = (14 + Math.random() * 20) + 'px';
+  p.style.opacity = '1';
+  document.body.appendChild(p);
+
+  let velY = (1.5 + Math.random() * 2) * rapidez;
+  let velX = (Math.random() - 0.5) * 2;
+  let rot = 0;
+  let rotVel = (Math.random() - 0.5) * 6;
+  let vida = 0;
+  const vidaMax = 300;
+
+  function animar() {
+    velY += 0.05;
+    p.style.transform = `translate(${velX * vida}px, ${velY * vida}px) rotate(${rot}deg)`;
+    p.style.opacity = Math.max(0, 1 - vida / vidaMax);
+    rot += rotVel;
+    vida++;
+    if (vida < vidaMax && p.style.top) requestAnimationFrame(animar);
+    else p.remove();
+  }
+  animar();
+}
+
+
+setInterval(() => {
+  if (document.hidden) return;
+  lanzarParticula(Math.random() * window.innerWidth, -30);
+}, 900);
+
+
+document.getElementById('escena1').addEventListener('click', () => {
+  iniciarMusica();
+  irA(1);
+  setTimeout(generarJardin, 500);
+});
+
+
+const jardin = document.getElementById('jardin');
+let floresCreadas = 0;
+const maxFlores = 20;
+
+function generarJardin() {
+
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => crearFlor(Math.random() * window.innerWidth), i * 400);
+  }
+}
+
+function crearFlor(x) {
+  if (floresCreadas >= maxFlores) return;
+  floresCreadas++;
+
+  const altura = 80 + Math.random() * 120;
+  const tallo = document.createElement('div');
+  tallo.classList.add('tallo');
+  tallo.style.left = x + 'px';
+  tallo.style.height = altura + 'px';
+  tallo.style.animationDuration = (1.5 + Math.random()) + 's';
+  jardin.appendChild(tallo);
+
+  const girasol = document.createElement('div');
+  girasol.classList.add('girasol');
+  girasol.textContent = Math.random() > 0.3 ? '🌻' : '🌼';
+  girasol.style.left = x + 'px';
+  girasol.style.bottom = (altura - 15) + 'px';
+  girasol.style.fontSize = (28 + Math.random() * 20) + 'px';
+  jardin.appendChild(girasol);
+
+ 
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => lanzarParticula(x + (Math.random() - 0.5) * 60, window.innerHeight - altura, '✨'), i * 80);
+  }
+
+  if (floresCreadas >= 6) {
+    setTimeout(() => {
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'Leer mi carta 💌';
+      btn.style.position = 'fixed';
+      btn.style.bottom = '30px';
+      btn.style.left = '50%';
+      btn.style.transform = 'translateX(-50%)';
+      btn.style.zIndex = '20';
+      btn.onclick = (e) => { e.stopPropagation(); irA(2); };
+      document.getElementById('escena2').appendChild(btn);
+    }, 2500);
+  }
+}
+
+jardin.addEventListener('click', (e) => {
+  const x = e.clientX || (e.touches && e.touches[0].clientX);
+  if (x) crearFlor(x);
+});
+jardin.addEventListener('touchstart', (e) => {
+  const x = e.touches[0].clientX;
+  crearFlor(x);
+}, { passive: true });
+
+
+const lineasCarta = [
+  { texto: 'Mi Esposa Mili,', clase: '' },
+  { texto: 'Hoy es el Día de las Flores Amarillas, y no podía dejar pasar la oportunidad de recordarte lo mucho que significas para mí.', clase: '' },
+  { texto: 'Dicen que las flores amarillas representan la amistad, la alegría y el amor sincero… y tú eres todo eso y mucho más.', clase: '' },
+  { texto: 'Desde que llegaste a mi vida, todo se volvió más brillante. Como un campo entero de girasoles girando hacia el sol, yo también giro hacia ti.', clase: '' },
+  { texto: 'Eres mi luz en los días grises, mi risa en los momentos difíciles y mi calma en medio del caos.', clase: '' },
+  { texto: 'Cada flor amarilla que veo me recuerda a ti: hermosa, cálida, única e imposible de ignorar.', clase: 'destacado' },
+  { texto: 'Si pudiera, te regalaría todos los campos de flores amarillas del mundo. Pero como no puedo, te regalo estas palabras, mi tiempo, mi cariño y mi corazón entero.', clase: '' },
+  { texto: 'Te amo hoy, mañana y por toda mi vida. 💛', clase: 'destacado' },
+  { texto: 'Con todo mi amor te digo,', clase: '' },
+  { texto: 'Siempre te voy a amar cariño', clase: 'destacado' }
+];
+
+let cartaIniciada = false;
+
+function iniciarCarta() {
+  if (cartaIniciada) return;
+  cartaIniciada = true;
+  const contenedor = document.getElementById('textoMaquina');
+  contenedor.innerHTML = '';
+  escribirLinea(0, contenedor);
+}
+
+function escribirLinea(idx, contenedor) {
+  if (idx >= lineasCarta.length) {
+    
+    setTimeout(() => {
+      const btn = document.createElement('button');
+      btn.className = 'btn';
+      btn.textContent = 'Continuar 🌻';
+      btn.style.display = 'block';
+      btn.style.margin = '25px auto 0';
+      btn.onclick = () => irA(3);
+      contenedor.appendChild(btn);
+    }, 500);
+    return;
+  }
+
+  const { texto, clase } = lineasCarta[idx];
+  const p = document.createElement('p');
+  if (clase) p.classList.add(clase);
+  contenedor.appendChild(p);
+
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  p.appendChild(cursor);
+
+  let i = 0;
+  const velocidad = 28;
+  function escribir() {
+    if (i < texto.length) {
+      cursor.insertAdjacentText('beforebegin', texto[i]);
+      i++;
+      setTimeout(escribir, velocidad + Math.random() * 20);
+    } else {
+      cursor.remove();
+      setTimeout(() => escribirLinea(idx + 1, contenedor), 400);
+    }
+  }
+  escribir();
+}
+
+
+const FECHA_INICIO = new Date('2024-01-01T00:00:00');
+
+let contadorActivo = false;
+function iniciarContador() {
+  if (contadorActivo) return;
+  contadorActivo = true;
+  actualizarContador();
+  setInterval(actualizarContador, 1000);
+}
+
+function actualizarContador() {
+  const ahora = new Date();
+  const diff = ahora - FECHA_INICIO;
+  if (diff < 0) return;
+
+  const seg = Math.floor(diff / 1000);
+  const dias = Math.floor(seg / 86400);
+  const horas = Math.floor((seg % 86400) / 3600);
+  const minutos = Math.floor((seg % 3600) / 60);
+  const segundos = seg % 60;
+
+  document.getElementById('dias').textContent = dias.toLocaleString();
+  document.getElementById('horas').textContent = String(horas).padStart(2, '0');
+  document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
+  document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+}
+
+
+const canvas = document.getElementById('canvasFuegos');
+const ctx = canvas.getContext('2d');
+let fireworks = [];
+let particles = [];
+let animacionFuegos = null;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function lanzarFuegosFinales() {
+  if (animacionFuegos) return;
+  // Explosión inicial
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => crearFuegoArtificial(), i * 300);
+  }
+  // Fuegos continuos
+  animacionFuegos = setInterval(() => {
+    if (escenaActual === 4) crearFuegoArtificial();
+  }, 700);
+  loopFuegos();
+}
+
+function crearFuegoArtificial() {
+  const x = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+  const y = Math.random() * canvas.height * 0.5 + canvas.height * 0.1;
+  const colores = ['#ffe082', '#ffd54f', '#ffb300', '#ffca28', '#fff59d', '#ffecb3'];
+  const color = colores[Math.floor(Math.random() * colores.length)];
+  const cantidad = 40 + Math.floor(Math.random() * 30);
+
+  for (let i = 0; i < cantidad; i++) {
+    const angulo = (Math.PI * 2 * i) / cantidad + Math.random() * 0.2;
+    const velocidad = 2 + Math.random() * 4;
+    particles.push({
+      x, y,
+      vx: Math.cos(angulo) * velocidad,
+      vy: Math.sin(angulo) * velocidad,
+      vida: 1,
+      decaimiento: 0.008 + Math.random() * 0.012,
+      color,
+      size: 1.5 + Math.random() * 2
+    });
+  }
+}
+
+function loopFuegos() {
+  ctx.fillStyle = 'rgba(10, 10, 26, 0.15)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  particles = particles.filter(p => p.vida > 0);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.04;
+    p.vx *= 0.99;
+    p.vy *= 0.99;
+    p.vida -= p.decaimiento;
+
+    ctx.globalAlpha = Math.max(0, p.vida);
+    ctx.fillStyle = p.color;
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+  ctx.shadowBlur = 0;
+
+  requestAnimationFrame(loopFuegos);
+}
+
+
+let audioCtx = null;
+let musicaActiva = false;
+let musicInterval = null;
+
+function iniciarMusica() {
+  if (audioCtx) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return;
+  }
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    musicaActiva = true;
+    document.getElementById('btnMusica').textContent = '🔊';
+    document.getElementById('controles').classList.add('visible');
+    document.getElementById('progreso').classList.add('visible');
+    reproducirMelodia();
+  } catch (e) {
+    console.log('Audio no disponible');
+  }
+}
+
+function reproducirMelodia() {
+  if (!musicaActiva || !audioCtx) return;
+
+
+  const escala = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+  const melodia = [0, 2, 4, 5, 4, 2, 0, -1, 0, 4, 7, 5, 4, 2, 0, 2];
+
+  function tocarNota(freq, inicio, duracion, vol = 0.05) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const filtro = audioCtx.createBiquadFilter();
+    filtro.type = 'lowpass';
+    filtro.frequency.value = 1200;
+
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, inicio);
+    gain.gain.linearRampToValueAtTime(vol, inicio + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, inicio + duracion);
+
+    osc.connect(filtro);
+    filtro.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(inicio);
+    osc.stop(inicio + duracion + 0.1);
+  }
+
+  let t = audioCtx.currentTime + 0.1;
+  melodia.forEach((nota, i) => {
+    if (nota >= 0) tocarNota(escala[nota % escala.length], t, 1.2, 0.04);
+    // Bajo suave
+    if (i % 4 === 0) tocarNota(escala[0] / 2, t, 2.5, 0.03);
+    t += 0.75;
+  });
+
+ 
+  musicInterval = setTimeout(reproducirMelodia, melodia.length * 750 + 2000);
+}
+
+document.getElementById('btnMusica').addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!audioCtx) { iniciarMusica(); return; }
+  musicaActiva = !musicaActiva;
+  if (musicaActiva) {
+    audioCtx.resume();
+    document.getElementById('btnMusica').textContent = '🔊';
+    reproducirMelodia();
+  } else {
+    audioCtx.suspend();
+    document.getElementById('btnMusica').textContent = '🔇';
+    clearTimeout(musicInterval);
+  }
+});
+
+document.getElementById('btnSaltar').addEventListener('click', (e) => {
+  e.stopPropagation();
+  siguienteEscena();
+});
+
+document.addEventListener('click', (e) => {
+ 
+  if (e.target.closest('button')) return;
+  if (escenaActual === 0) return;
+  for (let i = 0; i < 3; i++) {
+    setTimeout(() => lanzarParticula(
+      e.clientX + (Math.random() - 0.5) * 40,
+      e.clientY + (Math.random() - 0.5) * 40,
+      '💛',
+      0.8
+    ), i * 60);
+  }
+});
+
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') siguienteEscena();
+});
+
+document.body.addEventListener('touchstart', function activar() {
+  iniciarMusica();
+  document.body.removeEventListener('touchstart', activar);
+}, { passive: true, once: true });
+
+
+setTimeout(() => {
+  document.getElementById('controles').classList.add('visible');
+  document.getElementById('progreso').classList.add('visible');
+}, 3000);
+
+</script>
+</body>
+</html>
